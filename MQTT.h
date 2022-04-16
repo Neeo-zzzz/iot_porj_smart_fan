@@ -47,7 +47,9 @@
 #define AT_MQTT_CLOSE          "AT+MQTTCLOSE\r"
 #define AT_MQTT_KEEPALIVE       "AT+MQTTKEEPALIVE=%d\r"
 
-#define MQTT_SEND_LIGHT_JSON "{“method”:“%s”,“id”:“%s”,“params”:{“PhotoResistors”:%d},“version”:“1.0”}" //方法 id 光强度
+#define MQTT_SEND_LIGHT_JSON "{\"method\":\"%s\",\"id\":\"%s\",\"params\":{\"PhotoResistors\":%d},\"version\":\"1.0\"}" //方法 id 光强度
+#define MQTT_ALL_PARAMS_JSON_TEMPLATE "{\"Temperature\":%.2f,\"Rotate_Speed\":%d,\"Humidity\":%.2f,\"Is_People\":%d,\"Is_Pump\":%d,\"Light_Intensive\":%.2f,\"Light_Red\":%d,\"Light_Greed\":%d,\"Light_Blue\":%d}"
+#define MQTT_JSON_PUB_TEMPLATE "{\"id\":\"160\",\"version\":\"1.0\",\"method\":\"thing.event.property.post\",\"params\":\"%s\"}\r"
 #define AT_BUZZER_MUTE           "\"Buzzer\":2"
 
 
@@ -79,7 +81,7 @@ class MQTT
     char id[30];
 
     //storage last send message
-    DynamicJsonDocument json_data;
+    //DynamicJsonDocument json_data(1024);
 
     /**
      * @brief Construct a new MQTT object, init the mqtt, connect with aliyun, subscrip the topic
@@ -108,8 +110,13 @@ class MQTT
      * @param data 
      * @param len 
      */
-    void SendInfo(char* data,int len);
+    void SendInfo(char* data,int len=0);
     void ReceiveInfo();
+    /**
+     * @brief upload the device data into the backend
+     * 
+     */
+    void UpdateDate();
 };
 
 #endif
