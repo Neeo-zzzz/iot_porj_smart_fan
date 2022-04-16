@@ -2,7 +2,10 @@
 
 MQTT::MQTT()
 {
+    //init variable
     start_time = end_time = 0;
+    json_data = DynamicJsonDocument(1024);
+
     Serial3.begin(115200);
     Serial.begin(9600);
 
@@ -21,7 +24,32 @@ MQTT::MQTT()
 
 int MQTT::Parse(String data)
 {
+    #ifdef _DEBUG_
+    Serial.println("receive raw data:");
+    Serial.println(data);
+    #endif
 
+    json_data.clear();
+    int command_position = data.indexOf('{');
+    data = data.substring(command_position,data.length());
+    char* temp_data = (char*) data.c_str();
+    
+    deserializeJson(json_data,data);
+    strcpy(method,json_data["method"]);
+    strcpy(id,json_data["id"]);
+
+    //process the data in params and updata the global variable
+    if(strstr(temp_data,"Temperature")!=NULL) Temperature = json_data["params"]["Temperature"];
+    if(strstr(temp_data,"Rotate_Speed")!=NULL) Rotate_Speed = json_data["params"]["Rotate_Speed"];
+    if(strstr(temp_data,"Humidity")!=NULL) Humidity = json_data["params"]["Humidity"];
+    if(strstr(temp_data,"Is_People")!=NULL) Is_People = json_data["params"]["Is_People"];
+    if(strstr(temp_data,"Is_Pump")!=NULL) Is_Pump = json_data["params"]["Is_Pump"];
+    if(strstr(temp_data,"Light_Intensive")!=NULL) Light_Intensive = json_data["params"]["Light_Intensive"];
+    if(strstr(temp_data,"Light_Red")!=NULL) Light_Red = json_data["params"]["Light_Red"];
+    if(strstr(temp_data,"Light_Green")!=NULL) Light_Green = json_data["params"]["Light_Green"];
+    if(strstr(temp_data,"Light_Blue")!=NULL) Light_Blue = json_data["params"]["Light_Blue"];
+
+    return json_data.size();
 }
 
 
@@ -139,9 +167,9 @@ void MQTT::SendInfo(char* data,int len)
     snprintf(ATcmd,BUF_LEN,AT_MQTT_PUB_SET,ProductKey,DeviceName);
     flag = check_send_cmd(ATcmd,AT_OK,DEFAULT_TIMEOUT);
 
-    //生成要发送的json数据
-    cleanBuffer(ATdata,BUF_LEN_DATA);
-    len = snprintf(ATdata,BUF_LEN_DATA,JSON_DATA_RGB,r,g,b);
+    // //生成要发送的json数据
+    // cleanBuffer(ATdata,BUF_LEN_DATA);
+    // len = snprintf(ATdata,BUF_LEN_DATA,JSON_DATA_RGB);
 
 
     //给出mqttsend指令
@@ -150,12 +178,15 @@ void MQTT::SendInfo(char* data,int len)
     flag = check_send_cmd(ATcmd,">",DEFAULT_TIMEOUT);
     if(flag) 
     {
+        
+        flag = check_send_cmd(data,AT_MQTT_PUB_DATA_SUCC,DEFAULT_TIMEOUT);
+        #ifdef _DEBUG_
         Serial.println("mqtt send success!");
-        flag = check_send_cmd(ATdata,AT_MQTT_PUB_DATA_SUCC,DEFAULT_TIMEOUT);
-        Serial.println(flag);
+        //Serial.println(flag);
         Serial.println("final return: ");
         Serial.println(ATcmd);
-        Serial.println(ATdata);
+        Serial.println(data);
+        #endif
     }
     else{
         Serial.println("mqtt send fault!");
@@ -165,7 +196,6 @@ void MQTT::SendInfo(char* data,int len)
         String s = Serial3.readString();
     }
     return;
-
 }
 
 void MQTT::ReceiveInfo()

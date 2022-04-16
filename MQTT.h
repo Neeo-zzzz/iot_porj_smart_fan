@@ -2,6 +2,7 @@
 #define _MQTT_
 #include <Arduino.h>
 #include <ArduinoJson.h>
+#include "header.h"
 
 //User Modified Part
 #define wifi_ssid     "neeoneeo"    
@@ -74,6 +75,11 @@ class MQTT
     char ATbuffer[BUF_LEN];
     char ATdata[BUF_LEN_DATA];
     int start_time, end_time;
+    char method[100];
+    char id[30];
+
+    //storage last send message
+    DynamicJsonDocument json_data;
 
     /**
      * @brief Construct a new MQTT object, init the mqtt, connect with aliyun, subscrip the topic
@@ -86,8 +92,22 @@ class MQTT
     bool WiFiInit();
     bool AliConnect();
     void cleanBuffer(char *buf,int len);
+
+    /**
+     * @brief using the data received to update the global variable
+     * 
+     * @param data the raw data string 
+     * @return int the number of the received keys
+     */
     int Parse(String data);
     void KeepAlive();
+
+    /**
+     * @brief send the input string by mqtt send
+     * 
+     * @param data 
+     * @param len 
+     */
     void SendInfo(char* data,int len);
     void ReceiveInfo();
 };
