@@ -1,3 +1,6 @@
+#ifndef _FAN_
+#define _FAN_
+#include "header.h"
 #define PIN_FAN_INA 33
 #define PIN_FAN_INB 31
 #define PIN_FAN_5V 30
@@ -26,10 +29,37 @@ class fan
         {
             this->now_rotate_speed = n;
         }
+
+        if(Is_Fan_Safe)
+        {
+            //safe mode
+            if(Is_People) now_rotate_speed = 0;
+            else
+            {
+                if(Is_Fan_Humidifier_Smart) now_rotate_speed = GetAutoSpeed();
+            }
+        }else
+        {
+            if(Is_Fan_Humidifier_Smart) now_rotate_speed = GetAutoSpeed();
+        }
+
         analogWrite(PIN_FAN_INA,now_rotate_speed);
         #ifdef _DEBUG_
         Serial.print("now speed: ");
         Serial.println(now_rotate_speed);
         #endif
     }
+
+    int GetAutoSpeed()
+    {
+        if(Temperature>Temp_Threshold)
+        {
+            return 130 + (int)(Temperature-Temp_Threshold)*50;
+        }else
+        {
+            return 0;
+        }
+    }
 };
+
+#endif

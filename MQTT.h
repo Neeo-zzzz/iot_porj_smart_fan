@@ -1,7 +1,7 @@
 #ifndef _MQTT_
 #define _MQTT_
 
-#define _DEBUG_
+//#define _DEBUG_
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include "header.h"
@@ -57,7 +57,7 @@
 #define AT_MQTT_KEEPALIVE       "AT+MQTTKEEPALIVE=%d\r"
 
 #define MQTT_SEND_LIGHT_JSON "{\"method\":\"%s\",\"id\":\"%s\",\"params\":{\"PhotoResistors\":%d},\"version\":\"1.0\"}" //方法 id 光强度
-#define MQTT_ALL_PARAMS_JSON_TEMPLATE "{\"Temperature\":%.2f,\"Rotate_Speed\":%d,\"Humidity\":%.2f,\"Is_People\":%d,\"Is_Pump\":%d,\"Light_Intensive\":%d,\"Light_Red\":%d,\"Light_Greed\":%d,\"Light_Blue\":%d}"
+#define MQTT_ALL_PARAMS_JSON_TEMPLATE "{\"Temperature\":%.2f,\"Rotate_Speed\":%d,\"Humidity\":%.2f,\"Is_People\":%d,\"Is_Pump\":%d,\"Light_Intensive\":%d,\"Light_Red\":%d,\"Light_Green\":%d,\"Light_Blue\":%d,\"Is_Fan_Humidifier_Smart\":%d,\"Is_Fan_Safe\":%d,\"Is_Light_Smart\":%d,\"Temp_Threshold\":%.2f,\"Humidity_Threshold\":%.2f,\"Light_Threshold\":%d}"
 #define MQTT_JSON_PUB_TEMPLATE "{\"id\":\"160\",\"version\":\"1.0\",\"method\":\"thing.event.property.post\",\"params\":%s}\r"
 #define AT_BUZZER_MUTE           "\"Buzzer\":2"
 

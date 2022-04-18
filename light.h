@@ -19,6 +19,20 @@ class light
 
     void Update()
     {
+        if(Is_Light_Smart)
+        {
+            int light = 0;
+            if(Light_Intensive<Light_Threshold)
+            {
+                light = (Light_Threshold-Light_Intensive)*255/1000 + 30;
+            }else
+            {
+                light = 0;
+            }
+            Light_Blue = light;
+            Light_Green = light;
+            Light_Red = light;
+        }
         analogWrite(PIN_LIGHT_RED,Light_Red);
         analogWrite(PIN_LIGHT_GREEN,Light_Green);
         analogWrite(PIN_LIGHT_BLUE,Light_Blue);

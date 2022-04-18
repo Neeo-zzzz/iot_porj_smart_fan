@@ -27,7 +27,7 @@ MQTT::MQTT()
 
 int MQTT::Parse(String data)
 {
-    #ifdef _DEBUG_
+    #ifndef _DEBUG_
     Serial.println("receive raw data:");
     Serial.println(data);
     #endif
@@ -52,6 +52,14 @@ int MQTT::Parse(String data)
     if(strstr(temp_data,"Light_Red")!=NULL) Light_Red = json_data["params"]["Light_Red"];
     if(strstr(temp_data,"Light_Green")!=NULL) Light_Green = json_data["params"]["Light_Green"];
     if(strstr(temp_data,"Light_Blue")!=NULL) Light_Blue = json_data["params"]["Light_Blue"];
+
+    if(strstr(temp_data,"Is_Fan_Humidifier_Smart")!=NULL) Is_Fan_Humidifier_Smart = json_data["params"]["Is_Fan_Humidifier_Smart"];
+    if(strstr(temp_data,"Is_Fan_Safe")!=NULL) Is_Fan_Safe = json_data["params"]["Is_Fan_Safe"];
+    if(strstr(temp_data,"Is_Light_Smart")!=NULL) Is_Light_Smart = json_data["params"]["Is_Light_Smart"];
+    if(strstr(temp_data,"Temp_Threshold")!=NULL) Temp_Threshold = json_data["params"]["Temp_Threshold"];
+    if(strstr(temp_data,"Humidity_Threshold")!=NULL) Humidity_Threshold = json_data["params"]["Humidity_Threshold"];
+    if(strstr(temp_data,"Light_Threshold")!=NULL) Light_Threshold = json_data["params"]["Light_Threshold"];
+
 
     return json_data.size();
 }
@@ -196,7 +204,7 @@ void MQTT::SendInfo(char* data,int len)
         #endif
         if(!flag)
         {
-            Serial.println("send comment failed!");
+            Serial.println("send commend failed!");
         }
     }
     else{
@@ -225,12 +233,12 @@ void MQTT::ReceiveInfo()
 
 void MQTT::UpdateDate()
 {
-    char buffer[200];
-    snprintf(buffer,200,MQTT_ALL_PARAMS_JSON_TEMPLATE,Temperature,Rotate_Speed,Humidity,Is_People,Is_Pump,Light_Intensive,Light_Red,Light_Green,Light_Blue);
-    char cmd[300];
-    snprintf(cmd,300,MQTT_JSON_PUB_TEMPLATE,buffer);
+    char buffer[400];
+    snprintf(buffer,400,MQTT_ALL_PARAMS_JSON_TEMPLATE,Temperature,Rotate_Speed,Humidity,Is_People,Is_Pump,Light_Intensive,Light_Red,Light_Green,Light_Blue,Is_Fan_Humidifier_Smart,Is_Fan_Safe,Is_Light_Smart,Temp_Threshold,Humidity_Threshold,Light_Threshold);
+    char cmd[500];
+    snprintf(cmd,500,MQTT_JSON_PUB_TEMPLATE,buffer);
     int i = 0;
-    for(i = 0;i<300;i++)
+    for(i = 0;i<500;i++)
     {
         if(cmd[i]==0) break;
     }

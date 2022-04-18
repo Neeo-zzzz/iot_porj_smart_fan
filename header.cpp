@@ -11,6 +11,13 @@ int Light_Green;
 int Light_Blue;
 bool Is_Param_Change; //denote if the params are changed, true after change the params
 
+bool Is_Fan_Humidifier_Smart;
+bool Is_Fan_Safe;
+bool Is_Light_Smart;
+double Temp_Threshold;
+double Humidity_Threshold;
+int Light_Threshold;
+
 void PinInit()
 {
     //todo 
@@ -23,4 +30,11 @@ void PinInit()
     Is_People = false;
     Is_Pump = false;
     Rotate_Speed = 0;
+
+    Is_Fan_Humidifier_Smart = false;
+    Is_Fan_Safe = true;
+    Is_Light_Smart = false;
+    Temp_Threshold = 20.0;
+    Humidity_Threshold = 20.0;
+    Light_Threshold = 300;
 }

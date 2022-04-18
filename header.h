@@ -18,6 +18,13 @@ extern int Light_Red;
 extern int Light_Green;
 extern int Light_Blue;
 
+extern bool Is_Fan_Humidifier_Smart;
+extern bool Is_Fan_Safe;
+extern bool Is_Light_Smart;
+extern double Temp_Threshold;
+extern double Humidity_Threshold;
+extern int Light_Threshold;
+
 //the param next is only used in local
 extern bool Is_Param_Change; //denote if the params are changed, true after change the params
 
