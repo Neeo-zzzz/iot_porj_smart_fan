@@ -1,17 +1,46 @@
+//#define _DEBUG_
 #include "MQTT.h"
 #include "header.h"
 #include "light.h"
+#include "light_temp_detecter.h"
+#include "fan.h"
+#include "infrare_detector.h"
 
-#define _DEBUG_
 
 MQTT* mqtt;
 light* rgb_light;
-void setup()
+LT_detector* lt_sensor;
+fan* f;
+infrare_detector* if_d;
+int temp;
+
+void InitDevice()
 {
     PinInit();
     mqtt = new MQTT();
     rgb_light = new light();
-    Serial.println("===================connect success===================");
+    lt_sensor = new LT_detector();
+    f = new fan();
+    if_d = new infrare_detector();
+}
+
+void SetComponentValue()
+{
+    f->SetSpeed(Rotate_Speed);
+    rgb_light->Update();
+}
+
+void GetComponentValue()
+{
+    Temperature = lt_sensor->GetTemperature();
+    Light_Intensive = lt_sensor->GetLightIntensive();
+    Is_People = if_d->GetState();
+    Rotate_Speed = f->now_rotate_speed;
+}
+
+void setup()
+{
+    InitDevice();
 }
 
 void loop()
@@ -22,13 +51,11 @@ void loop()
     //update the param
     if(Is_Param_Change)
     {
-        rgb_light->Update();
+        SetComponentValue();
         Is_Param_Change = false;
+        
     }
-
-    //read the sensor
-
-    //send the current param 
+    GetComponentValue();
     mqtt->UpdateDate();
-    delay(1000);
+    delay(5000);
 }

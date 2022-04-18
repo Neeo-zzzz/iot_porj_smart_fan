@@ -1,11 +1,10 @@
 #include "header.h"
-
 double Temperature;
 int Rotate_Speed;
 double Humidity;
 bool Is_People;
 bool Is_Pump;
-double Light_Intensive;
+int Light_Intensive;
 //RGB light
 int Light_Red;
 int Light_Green;

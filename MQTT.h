@@ -1,5 +1,7 @@
 #ifndef _MQTT_
 #define _MQTT_
+
+#define _DEBUG_
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include "header.h"
@@ -7,12 +9,19 @@
 //User Modified Part
 #define wifi_ssid     "neeoneeo"    
 #define wifi_psw      "zjp011018"     
-#define clientIDstr   "gw7ywqzvFMl.test_1"
-#define timestamp     "999"
-#define ProductKey    "gw7ywqzvFMl"
-#define DeviceName    "test_1"
-#define DeviceSecret  "7a7536faa693e159fbc0fe68b7b77ca5"
-#define password      "83D1F779E3568BA9BE753D2034AE812D194FDA02"
+// #define clientIDstr   "gw7ywqzvFMl.test_1"
+// #define TIME_STAMP     "999"
+// #define ProductKey    "gw7ywqzvFMl"
+// #define DeviceName    "test_1"
+// #define DeviceSecret  "7a7536faa693e159fbc0fe68b7b77ca5"
+// #define password      "83D1F779E3568BA9BE753D2034AE812D194FDA02"
+
+#define clientIDstr   "gw7y8M2T5CN.fan_1"
+#define TIME_STAMP     "999"
+#define ProductKey    "gw7y8M2T5CN"
+#define DeviceName    "fan_1"
+#define DeviceSecret  "9af9697aa13f373c15093172f2eeb589"
+#define password      "DCEFFD695FE2CB5BC8465C08E54462F0B23EB80D"
 
 //ATcmd Format
 #define AT                    "AT\r"
@@ -48,8 +57,8 @@
 #define AT_MQTT_KEEPALIVE       "AT+MQTTKEEPALIVE=%d\r"
 
 #define MQTT_SEND_LIGHT_JSON "{\"method\":\"%s\",\"id\":\"%s\",\"params\":{\"PhotoResistors\":%d},\"version\":\"1.0\"}" //方法 id 光强度
-#define MQTT_ALL_PARAMS_JSON_TEMPLATE "{\"Temperature\":%.2f,\"Rotate_Speed\":%d,\"Humidity\":%.2f,\"Is_People\":%d,\"Is_Pump\":%d,\"Light_Intensive\":%.2f,\"Light_Red\":%d,\"Light_Greed\":%d,\"Light_Blue\":%d}"
-#define MQTT_JSON_PUB_TEMPLATE "{\"id\":\"160\",\"version\":\"1.0\",\"method\":\"thing.event.property.post\",\"params\":\"%s\"}\r"
+#define MQTT_ALL_PARAMS_JSON_TEMPLATE "{\"Temperature\":%.2f,\"Rotate_Speed\":%d,\"Humidity\":%.2f,\"Is_People\":%d,\"Is_Pump\":%d,\"Light_Intensive\":%d,\"Light_Red\":%d,\"Light_Greed\":%d,\"Light_Blue\":%d}"
+#define MQTT_JSON_PUB_TEMPLATE "{\"id\":\"160\",\"version\":\"1.0\",\"method\":\"thing.event.property.post\",\"params\":%s}\r"
 #define AT_BUZZER_MUTE           "\"Buzzer\":2"
 
 

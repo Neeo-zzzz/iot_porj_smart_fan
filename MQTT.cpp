@@ -8,15 +8,19 @@ MQTT::MQTT()
     Serial3.begin(115200);
     Serial.begin(9600);
 
-    BEEP(1);
+    //BEEP(1);
+    Serial.println("setup success!");
     while(1)
     {
         if(!WiFiInit()) continue;
-        BEEP(2);
-        if(!AliConnect()) continue;
+        //BEEP(2);
+        Serial.println("wifi connect success!");
+        if(!AliConnect()){Serial.println("ali connect failed!"); continue; }
         break;
     }
-    BEEP(3);
+
+    Serial.println("Aliyun connect success!");
+    //BEEP(3);
     
     //connect and sub finished
 }
@@ -62,6 +66,12 @@ bool MQTT::check_send_cmd(const char* cmd,const char* resp,unsigned int timeout)
     cleanBuffer(ATbuffer,BUF_LEN);
     Serial3.print(cmd);
     Serial3.flush();
+
+    #ifdef _DEBUG_
+    Serial.println("send the messave:");
+    Serial.println(cmd);
+    #endif
+    
     while(1)
     {
     while(Serial3.available())
@@ -129,7 +139,7 @@ bool MQTT::AliConnect()
     if(!flag)return false;
 
     cleanBuffer(ATcmd,BUF_LEN);
-    snprintf(ATcmd,BUF_LEN,AT_MQTT_CID,clientIDstr,timestamp);
+    snprintf(ATcmd,BUF_LEN,AT_MQTT_CID,clientIDstr,TIME_STAMP);
     flag = check_send_cmd(ATcmd,AT_OK,DEFAULT_TIMEOUT);
     if(!flag)return false;
 
@@ -208,6 +218,7 @@ void MQTT::ReceiveInfo()
         inString=Serial3.readString();
         if (inString!=""){
             Parse(inString);
+            Is_Param_Change = true;
     }
   }
 }
