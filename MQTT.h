@@ -16,12 +16,12 @@
 // #define DeviceSecret  "7a7536faa693e159fbc0fe68b7b77ca5"
 // #define password      "83D1F779E3568BA9BE753D2034AE812D194FDA02"
 
-#define clientIDstr   "gw7y8M2T5CN.fan_1"
+#define clientIDstr   "gw8ynznxDdD.Test_01"
 #define TIME_STAMP     "999"
-#define ProductKey    "gw7y8M2T5CN"
-#define DeviceName    "fan_1"
-#define DeviceSecret  "9af9697aa13f373c15093172f2eeb589"
-#define password      "DCEFFD695FE2CB5BC8465C08E54462F0B23EB80D"
+#define ProductKey    "gw8ynznxDdD"
+#define DeviceName    "Test_01"
+#define DeviceSecret  "c5c095440c4780ffe8d165dd9bfe21e1"
+#define password      "239ECFEFE7256D998A9CF125CF57E4D6CD130BC5"
 
 //ATcmd Format
 #define AT                    "AT\r"
@@ -90,7 +90,6 @@ class MQTT
     char id[30];
 
     //storage last send message
-    //DynamicJsonDocument json_data(1024);
 
     /**
      * @brief Construct a new MQTT object, init the mqtt, connect with aliyun, subscrip the topic
@@ -111,7 +110,7 @@ class MQTT
      * @return int the number of the received keys
      */
     int Parse(String data);
-    void KeepAlive();
+    void KeepAlive(); //unused
 
     /**
      * @brief send the input string by mqtt send
@@ -129,38 +128,3 @@ class MQTT
 };
 
 #endif
-
-
-// int MQTT::Parse(String data)
-// {
-//     #ifdef _DEBUG_
-//     Serial.println("receive raw data:");
-//     Serial.println(data);
-//     #endif
-//     int commaPosition;  
-//     commaPosition = data.indexOf('{');
-//     data= data.substring(commaPosition, data.length());
-//     char* temp_data = (char* ) data.c_str();
-//     //Serial.println(data);
-
-//     //JsonObject& root = jsonBuffer.parseObject(data);
-//     DynamicJsonDocument root(1024);
-//     deserializeJson(root, data);
-
-//     const char* method  = root["method"];
-//     const char* id      = root["id"];
-//     int         Frequency  = root["params"]["Frequency"];
-//     int r,g,b;
-
-//     //处理param的数据
-//     Serial.println("params_data:");
-//     Serial.println(temp_data);
-//     if(strstr(temp_data,"ColorRed")!=NULL) ColorRed = root["params"]["ColorRed"];
-//     if(strstr(temp_data,"ColorGreen")!=NULL) ColorGreen = root["params"]["ColorGreen"];
-//     if(strstr(temp_data,"ColorBlue")!=NULL) ColorBlue = root["params"]["ColorBlue"];
-
-//     //返回数据
-//     Serial.println("return the message");
-//     sendLight(ColorRed,ColorGreen,ColorBlue);
-//     return Frequency;  
-// }

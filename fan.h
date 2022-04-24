@@ -23,6 +23,8 @@ class fan
 
     void SetSpeed(int n)
     {
+//        Serial.print("input speed: ");
+//        Serial.println(n);
         if(n<=0) this->now_rotate_speed = 0;
         else if(n>=255) this->now_rotate_speed = 255;
         else
@@ -33,20 +35,20 @@ class fan
         if(Is_Fan_Safe)
         {
             //safe mode
-            if(Is_People) now_rotate_speed = 0;
+            if(Is_People) this->now_rotate_speed = 0;
             else
             {
-                if(Is_Fan_Humidifier_Smart) now_rotate_speed = GetAutoSpeed();
+                if(Is_Fan_Humidifier_Smart) this->now_rotate_speed = GetAutoSpeed();
             }
         }else
         {
-            if(Is_Fan_Humidifier_Smart) now_rotate_speed = GetAutoSpeed();
+            if(Is_Fan_Humidifier_Smart) this->now_rotate_speed = GetAutoSpeed();
         }
 
-        analogWrite(PIN_FAN_INA,now_rotate_speed);
+        analogWrite(PIN_FAN_INA,this->now_rotate_speed);
         #ifdef _DEBUG_
-        Serial.print("now speed: ");
-        Serial.println(now_rotate_speed);
+        //Serial.print("now speed: ");
+        //Serial.println(this->now_rotate_speed);
         #endif
     }
 

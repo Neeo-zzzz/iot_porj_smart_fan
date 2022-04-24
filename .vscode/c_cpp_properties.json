@@ -24,6 +24,7 @@
                 "D:\\software\\development\\Arduino\\hardware\\arduino\\avr\\libraries\\Wire\\src",
                 "D:\\software\\development\\Arduino\\hardware\\arduino\\avr\\libraries\\SPI\\src",
                 "C:\\Users\\qq231\\Documents\\Arduino\\libraries\\Adafruit_BMP280_Library",
+                "D:\\software\\development\\Arduino\\libraries\\dht11",
                 "d:\\software\\development\\arduino\\hardware\\tools\\avr\\lib\\gcc\\avr\\7.3.0\\include",
                 "d:\\software\\development\\arduino\\hardware\\tools\\avr\\lib\\gcc\\avr\\7.3.0\\include-fixed",
                 "d:\\software\\development\\arduino\\hardware\\tools\\avr\\avr\\include"

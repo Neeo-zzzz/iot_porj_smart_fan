@@ -35,6 +35,6 @@ void PinInit()
     Is_Fan_Safe = true;
     Is_Light_Smart = false;
     Temp_Threshold = 20.0;
-    Humidity_Threshold = 20.0;
+    Humidity_Threshold = 70.0;
     Light_Threshold = 300;
 }

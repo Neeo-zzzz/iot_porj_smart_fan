@@ -29,13 +29,16 @@ class light
             {
                 light = 0;
             }
-            Light_Blue = light;
-            Light_Green = light;
-            Light_Red = light;
+            analogWrite(PIN_LIGHT_RED,light);
+            analogWrite(PIN_LIGHT_BLUE,light);
+            analogWrite(PIN_LIGHT_GREEN,light);
+        }else
+        {
+            analogWrite(PIN_LIGHT_RED,Light_Red);
+            analogWrite(PIN_LIGHT_GREEN,Light_Green);
+            analogWrite(PIN_LIGHT_BLUE,Light_Blue);
         }
-        analogWrite(PIN_LIGHT_RED,Light_Red);
-        analogWrite(PIN_LIGHT_GREEN,Light_Green);
-        analogWrite(PIN_LIGHT_BLUE,Light_Blue);
+        
     }
 
     void SetLight(int r,int g,int b)

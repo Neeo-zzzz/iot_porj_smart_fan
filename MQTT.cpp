@@ -27,20 +27,29 @@ MQTT::MQTT()
 
 int MQTT::Parse(String data)
 {
-    #ifndef _DEBUG_
+    if(data.length()<=5) return 0;
+
     Serial.println("receive raw data:");
     Serial.println(data);
-    #endif
 
-    DynamicJsonDocument json_data(1024);
+    StaticJsonDocument<1024> json_data;
     json_data.clear();
     int command_position = data.indexOf('{');
     data = data.substring(command_position,data.length());
-    char* temp_data = (char*) data.c_str();
+    Serial.println(data);
+    //char temp_data[500];
+    //strcpy(temp_data,data.c_str());
+    const char* temp_data = data.c_str();
+    Serial.println(temp_data);
+    Serial.println(strstr(temp_data,"Rotate_Speed")!=NULL);
     
     deserializeJson(json_data,data);
     strcpy(method,json_data["method"]);
     strcpy(id,json_data["id"]);
+    Serial.println((int)json_data["params"]["Light_Green"]);
+    Serial.println((int)json_data["params"]["Rotate_Speed"]);
+    //deserializeJson(json_data,json_data["params"]);
+    //Serial.println((int)json_data["Rotate_Speed"]);
 
     //process the data in params and updata the global variable
     //if(strstr(temp_data,"Temperature")!=NULL) Temperature = json_data["params"]["Temperature"];
@@ -60,8 +69,9 @@ int MQTT::Parse(String data)
     if(strstr(temp_data,"Humidity_Threshold")!=NULL) Humidity_Threshold = json_data["params"]["Humidity_Threshold"];
     if(strstr(temp_data,"Light_Threshold")!=NULL) Light_Threshold = json_data["params"]["Light_Threshold"];
 
-
-    return json_data.size();
+    json_data.clear();
+    
+    return 3;
 }
 
 
@@ -76,7 +86,7 @@ bool MQTT::check_send_cmd(const char* cmd,const char* resp,unsigned int timeout)
     Serial3.flush();
 
     #ifdef _DEBUG_
-    Serial.println("send the messave:");
+    Serial.println("send the message:");
     Serial.println(cmd);
     #endif
     
@@ -225,8 +235,9 @@ void MQTT::ReceiveInfo()
         delay(100);
         inString=Serial3.readString();
         if (inString!=""){
-            Parse(inString);
+            int a = Parse(inString);
             Is_Param_Change = true;
+            if(a==0) Is_Param_Change = true;
     }
   }
 }
